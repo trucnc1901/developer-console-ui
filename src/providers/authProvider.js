@@ -1,10 +1,12 @@
 import decodeJwt from 'jwt-decode';
 import StorageKeys from '../common/constant/storage-keys';
-import config from '../common/config';
-const apiLogout = `${config.REACT_APP_MINIAPP_API_URL}/api/v1/miniapp-console/logout`;
-const apiUser = `${config.REACT_APP_MINIAPP_API_URL}/api/v1/miniapp-console/users/me`;
 
-const apiLogin = `${config.REACT_APP_MINIAPP_API_URL}/api/v1/miniapp-console/login/zalo?auth_code=iA-pUHkWOnwrwvT89AHk5-VJd6nq_6yYgT3lQrt6DrF0__S0Nx46KiIfx2Kxv1vShS_i4KppGrwftw1iDULbFAceacWny6qN-kwwK6Z5KHcrwSfkKzqeLu3tp2vcvdKaelBaT5oY5n_NyhC4Ke1oAFNoc0WNbXm9qCZ_UcUGG5QCjgCi7lHI2yB1nmbcgtficiJeGrZE11N3WTfPFk4vEjQqg0zsX3qWo_M902UQ6W_ZpVal8yTcFOsMdKy0gp8ttvU1VJg_Q5t2rFvO6yET3REwJGbvz8nYtkjaApRNr2ZipGq8GCIywLFQNupxefMRnYXMq6Krild9VYJ_EJRGgynb1ffDKkssp7fCYL0dokQX7rl0MIOo6MzLOBbYUG`;
+const { REACT_APP_MINIAP_BASE_URL, REACT_APP_MINIAP_API_URL, REACT_APP_MINIAP_ZP_URL } = process.env;
+
+const apiLogout = `${REACT_APP_MINIAP_BASE_URL}/api/v1/miniapp-console/logout`;
+const apiUser = `${REACT_APP_MINIAP_BASE_URL}/api/v1/miniapp-console/users/me`;
+
+const apiLogin = `${REACT_APP_MINIAP_BASE_URL}/api/v1/miniapp-console/login/zalo?auth_code=iA-pUHkWOnwrwvT89AHk5-VJd6nq_6yYgT3lQrt6DrF0__S0Nx46KiIfx2Kxv1vShS_i4KppGrwftw1iDULbFAceacWny6qN-kwwK6Z5KHcrwSfkKzqeLu3tp2vcvdKaelBaT5oY5n_NyhC4Ke1oAFNoc0WNbXm9qCZ_UcUGG5QCjgCi7lHI2yB1nmbcgtficiJeGrZE11N3WTfPFk4vEjQqg0zsX3qWo_M902UQ6W_ZpVal8yTcFOsMdKy0gp8ttvU1VJg_Q5t2rFvO6yET3REwJGbvz8nYtkjaApRNr2ZipGq8GCIywLFQNupxefMRnYXMq6Krild9VYJ_EJRGgynb1ffDKkssp7fCYL0dokQX7rl0MIOo6MzLOBbYUG`;
 
 const removeLocalStorge = () => {
   localStorage.removeItem(StorageKeys.TOKEN);
@@ -57,6 +59,7 @@ export const OAuth = async () => {
 
 const authProvider = {
   login: async () => {
+    console.log(REACT_APP_MINIAP_BASE_URL);
     try {
       const response = await fetch(apiLogin, {
         method: 'GET',
