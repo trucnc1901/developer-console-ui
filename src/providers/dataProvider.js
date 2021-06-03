@@ -4,7 +4,7 @@ import { stringify } from 'query-string';
 const apiUrl = 'https://jsonplaceholder.typicode.com';
 const httpClient = fetchUtils.fetchJson;
 
-export default {
+const dataProvider = {
   getList: (resource, params) => {
     const { page, perPage } = params.pagination;
     const { field, order } = params.sort;
@@ -92,3 +92,5 @@ export default {
     }).then(({ json }) => ({ data: json }));
   },
 };
+
+export default dataProvider;
