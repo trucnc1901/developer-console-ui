@@ -1,10 +1,10 @@
 import decodeJwt from 'jwt-decode';
 import StorageKeys from '../common/constant/storage-keys';
+import config from '../common/config';
+const apiLogout = `${config.REACT_APP_MINIAPP_API_URL}/api/v1/miniapp-console/logout`;
+const apiUser = `${config.REACT_APP_MINIAPP_API_URL}/api/v1/miniapp-console/users/me`;
 
-const apiLogout = '/api/v1/miniapp-console/logout';
-const apiUser = '/api/v1/miniapp-console/users/me';
-
-const apiLogin = `/api/v1/miniapp-console/login/zalo?auth_code=iA-pUHkWOnwrwvT89AHk5-VJd6nq_6yYgT3lQrt6DrF0__S0Nx46KiIfx2Kxv1vShS_i4KppGrwftw1iDULbFAceacWny6qN-kwwK6Z5KHcrwSfkKzqeLu3tp2vcvdKaelBaT5oY5n_NyhC4Ke1oAFNoc0WNbXm9qCZ_UcUGG5QCjgCi7lHI2yB1nmbcgtficiJeGrZE11N3WTfPFk4vEjQqg0zsX3qWo_M902UQ6W_ZpVal8yTcFOsMdKy0gp8ttvU1VJg_Q5t2rFvO6yET3REwJGbvz8nYtkjaApRNr2ZipGq8GCIywLFQNupxefMRnYXMq6Krild9VYJ_EJRGgynb1ffDKkssp7fCYL0dokQX7rl0MIOo6MzLOBbYUG`;
+const apiLogin = `${config.REACT_APP_MINIAPP_API_URL}/api/v1/miniapp-console/login/zalo?auth_code=iA-pUHkWOnwrwvT89AHk5-VJd6nq_6yYgT3lQrt6DrF0__S0Nx46KiIfx2Kxv1vShS_i4KppGrwftw1iDULbFAceacWny6qN-kwwK6Z5KHcrwSfkKzqeLu3tp2vcvdKaelBaT5oY5n_NyhC4Ke1oAFNoc0WNbXm9qCZ_UcUGG5QCjgCi7lHI2yB1nmbcgtficiJeGrZE11N3WTfPFk4vEjQqg0zsX3qWo_M902UQ6W_ZpVal8yTcFOsMdKy0gp8ttvU1VJg_Q5t2rFvO6yET3REwJGbvz8nYtkjaApRNr2ZipGq8GCIywLFQNupxefMRnYXMq6Krild9VYJ_EJRGgynb1ffDKkssp7fCYL0dokQX7rl0MIOo6MzLOBbYUG`;
 
 const removeLocalStorge = () => {
   localStorage.removeItem(StorageKeys.TOKEN);
