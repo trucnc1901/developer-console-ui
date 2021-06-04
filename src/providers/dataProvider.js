@@ -1,8 +1,16 @@
-import { fetchUtils } from 'react-admin';
 import { stringify } from 'query-string';
+import { fetchUtils } from 'react-admin';
+import StorageKeys from '../common/constant/storage-keys';
 
-const apiUrl = 'https://jsonplaceholder.typicode.com';
-const httpClient = fetchUtils.fetchJson;
+const { REACT_APP_MINIAP_BASE_API } = process.env;
+
+const httpClient = (url, options = {}) => {
+  options.user = {
+    authenticated: true,
+    token: `Bearer ${sessionStorage.getItem(StorageKeys.TOKEN)}`,
+  };
+  return fetchUtils.fetchJson(url, options);
+};
 
 const dataProvider = {
   getList: (resource, params) => {
@@ -13,7 +21,7 @@ const dataProvider = {
       range: JSON.stringify([(page - 1) * perPage, page * perPage - 1]),
       filter: JSON.stringify(params.filter),
     };
-    const url = `${apiUrl}/${resource}?${stringify(query)}`;
+    const url = `${REACT_APP_MINIAP_BASE_API}/${resource}?${stringify(query)}`;
 
     return httpClient(url).then(({ headers, json }) => ({
       data: json,
@@ -22,7 +30,7 @@ const dataProvider = {
   },
 
   getOne: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
+    httpClient(`${REACT_APP_MINIAP_BASE_API}/${resource}/${params.id}`).then(({ json }) => ({
       data: json,
     })),
 
@@ -30,7 +38,7 @@ const dataProvider = {
     const query = {
       filter: JSON.stringify({ id: params.ids }),
     };
-    const url = `${apiUrl}/${resource}?${stringify(query)}`;
+    const url = `${REACT_APP_MINIAP_BASE_API}/${resource}?${stringify(query)}`;
     return httpClient(url).then(({ json }) => ({ data: json }));
   },
 
@@ -45,7 +53,7 @@ const dataProvider = {
         [params.target]: params.id,
       }),
     };
-    const url = `${apiUrl}/${resource}?${stringify(query)}`;
+    const url = `${REACT_APP_MINIAP_BASE_API}/${resource}?${stringify(query)}`;
 
     return httpClient(url).then(({ headers, json }) => ({
       data: json,
@@ -54,7 +62,7 @@ const dataProvider = {
   },
 
   update: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`, {
+    httpClient(`${REACT_APP_MINIAP_BASE_API}/${resource}/${params.id}`, {
       method: 'PUT',
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({ data: json })),
@@ -63,14 +71,14 @@ const dataProvider = {
     const query = {
       filter: JSON.stringify({ id: params.ids }),
     };
-    return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
+    return httpClient(`${REACT_APP_MINIAP_BASE_API}/${resource}?${stringify(query)}`, {
       method: 'PUT',
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({ data: json }));
   },
 
   create: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}`, {
+    httpClient(`${REACT_APP_MINIAP_BASE_API}/${resource}`, {
       method: 'POST',
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({
@@ -78,7 +86,7 @@ const dataProvider = {
     })),
 
   delete: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`, {
+    httpClient(`${REACT_APP_MINIAP_BASE_API}/${resource}/${params.id}`, {
       method: 'DELETE',
     }).then(({ json }) => ({ data: json })),
 
@@ -86,7 +94,7 @@ const dataProvider = {
     const query = {
       filter: JSON.stringify({ id: params.ids }),
     };
-    return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
+    return httpClient(`${REACT_APP_MINIAP_BASE_API}/${resource}?${stringify(query)}`, {
       method: 'DELETE',
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({ data: json }));

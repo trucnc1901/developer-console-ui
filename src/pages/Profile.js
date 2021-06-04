@@ -1,8 +1,8 @@
 import { Box, Container, Grid, Typography } from '@material-ui/core';
-import { Title } from 'react-admin';
 import theme from '../common/theme';
+import { Title } from 'react-admin';
 
-const Dashboard = (props) => {
+const Profile = (props) => {
   return (
     <Box
       py={3}
@@ -15,7 +15,7 @@ const Dashboard = (props) => {
         <Title title="Dashboard" />
         <Grid container spacing={3}>
           <Typography color="textPrimary" gutterBottom variant="h3">
-            Dashboard
+            Profile
           </Typography>
         </Grid>
       </Container>
@@ -23,4 +23,4 @@ const Dashboard = (props) => {
   );
 };
 
-export default Dashboard;
+export default Profile;

@@ -39,8 +39,8 @@ const MyMenu = ({ onMenuClick, logout }) => {
   const classes = useStyles();
   const open = useSelector((state) => state.admin.ui.sidebarOpen);
   const resources = useSelector(getResources);
-  const profile = JSON.parse(localStorage.getItem(StorageKeys.PROFILE)) || null;
-  const { id, name, email, phone_number, avatar } = { ...profile };
+  const profile = JSON.parse(sessionStorage.getItem(StorageKeys.PROFILE)) || null;
+  const { name, phone_number, avatar } = { ...profile };
   return (
     <Box className={classes.cls1}>
       {!!open && (
