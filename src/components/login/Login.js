@@ -1,9 +1,9 @@
-import { useLogin } from 'ra-core';
-import React, { useState, useEffect } from 'react';
-import LoginForm from './LoginForm';
-import { useLocation } from 'react-router-dom';
-import StorageKeys from '../../common/constant/storage-keys';
+import StorageKeys from 'common/constant/storage-keys';
 import queryString from 'query-string';
+import { useLogin } from 'ra-core';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import LoginForm from './LoginForm';
 
 const Login = () => {
   const [loading, setLoading] = useState(false);

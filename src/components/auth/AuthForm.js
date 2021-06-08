@@ -1,11 +1,11 @@
 import { Avatar, Box, Button, CircularProgress, Container, Typography } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import CodeRoundedIcon from '@material-ui/icons/CodeRounded';
+import theme from 'common/theme';
+import Copyright from 'components/common/CopyRight';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Notification } from 'react-admin';
-import theme from '../../common/theme';
-import Copyright from '../common/CopyRight';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,7 +56,16 @@ const AuthForm = ({ loading, handleAuth }) => {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       }),
-    });
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .catch((error) => {
+        console.error('There has been a problem with your fetch operation:', error);
+      });
     handleAuth();
   };
   return (

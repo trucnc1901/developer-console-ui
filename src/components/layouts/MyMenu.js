@@ -1,11 +1,10 @@
 import { Avatar, Box, Divider, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import DefaultIcon from '@material-ui/icons/ViewList';
+import theme from 'common/theme';
 import * as React from 'react';
-import { DashboardMenuItem, getResources, MenuItemLink } from 'react-admin';
+import { DashboardMenuItem, getResources, MenuItemLink, useGetIdentity } from 'react-admin';
 import { useSelector } from 'react-redux';
-import StorageKeys from '../../common/constant/storage-keys';
-import theme from '../../common/theme';
 
 const useStyles = makeStyles({
   cls1: {
@@ -35,12 +34,13 @@ const useStyles = makeStyles({
     textTransform: 'capitalize',
   },
 });
+
 const MyMenu = ({ onMenuClick, logout }) => {
   const classes = useStyles();
   const open = useSelector((state) => state.admin.ui.sidebarOpen);
   const resources = useSelector(getResources);
-  const profile = JSON.parse(sessionStorage.getItem(StorageKeys.PROFILE)) || null;
-  const { name, email, avatar } = { ...profile };
+  const identity = useGetIdentity().identity;
+  const { name, email, avatar } = { ...identity };
   return (
     <Box className={classes.cls1}>
       {!!open && (

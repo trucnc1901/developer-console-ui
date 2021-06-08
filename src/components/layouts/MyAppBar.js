@@ -1,6 +1,6 @@
-import React, { forwardRef } from 'react';
-import { AppBar, UserMenu, MenuItemLink } from 'react-admin';
 import SettingsIcon from '@material-ui/icons/Settings';
+import React, { forwardRef } from 'react';
+import { AppBar, MenuItemLink, UserMenu } from 'react-admin';
 
 const ConfigurationMenu = forwardRef(({ onClick }, ref) => (
   <MenuItemLink
@@ -11,11 +11,14 @@ const ConfigurationMenu = forwardRef(({ onClick }, ref) => (
     onClick={onClick} // close the menu on click
   />
 ));
-const MyUserMenu = (props) => (
-  <UserMenu {...props}>
-    <ConfigurationMenu />
-  </UserMenu>
-);
+
+const MyUserMenu = (props) => {
+  return (
+    <UserMenu {...props}>
+      <ConfigurationMenu />
+    </UserMenu>
+  );
+};
 
 const MyAppBar = (props) => {
   return <AppBar {...props} userMenu={<MyUserMenu />} />;

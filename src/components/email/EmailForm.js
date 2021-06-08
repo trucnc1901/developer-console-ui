@@ -5,10 +5,10 @@ import EmailRounded from '@material-ui/icons/EmailRounded';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Notification } from 'react-admin';
-import theme from '../../common/theme';
+import theme from 'common/theme';
 import validator from 'validator';
-import Copyright from '../common/CopyRight';
 import Snackbar from '@material-ui/core/Snackbar';
+import Copyright from 'components/common/CopyRight';
 
 const useStyles = makeStyles((theme) => ({
   root: {

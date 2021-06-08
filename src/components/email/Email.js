@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import StorageKeys from 'common/constant/storage-keys';
+import React, { useEffect, useState } from 'react';
+import { useCheckAuth } from 'react-admin';
 import { useHistory } from 'react-router-dom';
-import StorageKeys from '../../common/constant/storage-keys';
-import CheckAuth from '../common/CheckAuth';
 import EmailForm from './EmailForm';
 
 const Email = () => {
-  CheckAuth();
+  const checkAuth = useCheckAuth();
+  useEffect(() => {
+    checkAuth().catch(() => {});
+  }, []);
   const history = useHistory();
   const { REACT_APP_MINIAP_API_ACTIVATE_REQUEST } = process.env;
   const [loading, setLoading] = useState(false);

@@ -1,11 +1,11 @@
 import { Avatar, Box, Button, CircularProgress, Container, Typography } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import EmailRoundedIcon from '@material-ui/icons/EmailRounded';
+import theme from 'common/theme';
+import Copyright from 'components/common/CopyRight';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Notification } from 'react-admin';
-import theme from '../../common/theme';
-import Copyright from '../common/CopyRight';
 
 const useStyles = makeStyles((theme) => ({
   root: {

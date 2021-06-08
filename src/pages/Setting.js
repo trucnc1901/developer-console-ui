@@ -1,10 +1,14 @@
 import { Box, Container } from '@material-ui/core';
-import CheckAuth from '../components/common/CheckAuth';
-import SettingsNotifications from '../components/settings/SettingsNotifications';
-import SettingsPassword from '../components/settings/SettingsPassword';
+import { useCheckAuth } from 'react-admin';
+import { useEffect } from 'react';
+import SettingsNotifications from 'components/settings/SettingsNotifications';
+import SettingsPassword from 'components/settings/SettingsPassword';
 
 const Setting = () => {
-  CheckAuth();
+  const checkAuth = useCheckAuth();
+  useEffect(() => {
+    checkAuth().catch(() => {});
+  }, []);
   return (
     <Box
       css={{

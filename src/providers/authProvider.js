@@ -1,4 +1,5 @@
 import decodeJwt from 'jwt-decode';
+import { fetchUtils } from 'react-admin';
 import StorageKeys from '../common/constant/storage-keys';
 
 const {
@@ -13,7 +14,7 @@ const GetProfile = async () => {
     const response = await fetch(REACT_APP_MINIAP_API_PROFILE, {
       method: 'GET',
       headers: new Headers({
-        'Content-Type': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${sessionStorage.getItem(StorageKeys.TOKEN)}`,
       }),
     });
@@ -32,12 +33,12 @@ const authProvider = {
       const response = await fetch(`${REACT_APP_MINIAP_API_LOGIN}=${REACT_APP_MINIAP_AUTHEN_CODE}`, {
         method: 'GET',
         headers: new Headers({
-          'Content-Type': 'application/json',
+          Accept: 'application/json',
         }),
       });
       const data = await response.json();
       const token = await data.access_token;
-      sessionStorage.setItem(StorageKeys.TOKEN, token);
+      await sessionStorage.setItem(StorageKeys.TOKEN, token);
       await GetProfile();
       // return response;
     } catch (error) {
@@ -49,11 +50,12 @@ const authProvider = {
   checkError: (error) => {
     const status = error.status;
     if (status === 401 || status === 403) {
+      sessionStorage.clear();
       return Promise.reject({ message: false });
     }
 
     if (status === 404) {
-      return Promise.reject();
+      return Promise.reject({ redirectTo: '/error' });
     }
     return Promise.resolve();
   },
@@ -67,7 +69,7 @@ const authProvider = {
     }
     if (!token || now.getTime() > jwt.exp * 1000) {
       sessionStorage.clear();
-      return Promise.reject({ redirectTo: '/login' });
+      return Promise.reject({ message: 'login.required' });
     }
     return Promise.resolve();
   },
@@ -77,7 +79,7 @@ const authProvider = {
       fetch(REACT_APP_MINIAP_API_LOGOUT, {
         method: 'GET',
         headers: new Headers({
-          'Content-Type': 'application/json',
+          Accept: 'application/json',
           Authorization: `Bearer ${sessionStorage.getItem(StorageKeys.TOKEN)}`,
         }),
       });
@@ -90,8 +92,8 @@ const authProvider = {
   },
   getIdentity: () => {
     try {
-      const { id, name, email, phone_number, avatar } = JSON.parse(sessionStorage.getItem(StorageKeys.TOKEN));
-      return Promise.resolve({ id, name, email, phone_number, avatar });
+      const { id, name, avatar, phone_number, email } = JSON.parse(sessionStorage.getItem(StorageKeys.PROFILE));
+      return Promise.resolve({ id, name, avatar, phone_number, email });
     } catch (error) {
       return Promise.reject(error);
     }

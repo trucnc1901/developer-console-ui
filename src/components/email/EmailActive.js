@@ -1,23 +1,33 @@
 import queryString from 'query-string';
+import { useNotify } from 'ra-core';
+import { Loading } from 'ra-ui-materialui';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import StorageKeys from '../../common/constant/storage-keys';
+import { useHistory, useLocation } from 'react-router-dom';
+import StorageKeys from 'common/constant/storage-keys';
 
 const { REACT_APP_MINIAP_API_CONFIRM_REQUEST } = process.env;
+
 const EmailActive = () => {
-  let location = useLocation();
+  const location = useLocation();
+  const history = useHistory();
+  const notify = useNotify();
   const auth_code = queryString.parse(location.search).code;
   useEffect(() => {
     const fetchApi = async () => {
-      const reponse = await fetch(`https://jsonplaceholder.typicode.com/posts`, {
+      fetch(`${REACT_APP_MINIAP_API_CONFIRM_REQUEST}?code=${auth_code}`, {
         method: 'PUT',
         Authorization: `Bearer ${sessionStorage.getItem(StorageKeys.TOKEN)}`,
-      });
-      console.log(reponse);
+      })
+        .then(() => {
+          history.push('/dashboard');
+        })
+        .catch((error) => {
+          notify(`Active email error: ${error}`);
+        });
     };
     fetchApi();
   }, []);
-  return <div></div>;
+  return <Loading />;
 };
 
 export default EmailActive;

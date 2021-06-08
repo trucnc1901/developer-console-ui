@@ -2,11 +2,11 @@ import { Avatar, Box, Button, CircularProgress, Container, TextField, Typography
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import CodeRoundedIcon from '@material-ui/icons/CodeRounded';
 import Alert from '@material-ui/lab/Alert';
+import theme from 'common/theme';
+import Copyright from 'components/common/CopyRight';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Notification } from 'react-admin';
-import theme from '../../common/theme';
-import Copyright from '../common/CopyRight';
 
 const useStyles = makeStyles((theme) => ({
   root: {

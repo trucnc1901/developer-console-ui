@@ -1,9 +1,8 @@
-import { Box, Container, Typography } from '@material-ui/core';
-import Status from 'common/constant/status';
-import theme from 'common/theme';
+import { Box, Container } from '@material-ui/core';
 import { useEffect } from 'react';
 import { useCheckAuth } from 'react-admin';
 
+const imageURL = '/static/images/thankyou.jpg';
 const NotFound = () => {
   const checkAuth = useCheckAuth();
   useEffect(() => {
@@ -12,18 +11,19 @@ const NotFound = () => {
   return (
     <Box
       style={{
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: '#ffffff',
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',
         justifyContent: 'center',
+        textAlign: 'center',
       }}
     >
       <Container maxWidth="md">
         <Box style={{ textAlign: 'center' }}>
           <img
             alt="Under development"
-            src={Status.ERROR_404.image}
+            src={imageURL}
             style={{
               marginBottom: 30,
               display: 'inline-block',
@@ -32,12 +32,6 @@ const NotFound = () => {
             }}
           />
         </Box>
-        <Typography align="center" color="textPrimary" gutterBottom variant="h1">
-          {Status.ERROR_404.title}
-        </Typography>
-        <Typography align="center" color="textPrimary" variant="subtitle2">
-          {Status.ERROR_404.text}
-        </Typography>
       </Container>
     </Box>
   );

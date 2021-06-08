@@ -1,16 +1,15 @@
 import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { useEffect } from 'react';
-import { Title } from 'react-admin';
-import StorageKeys from '../common/constant/storage-keys';
-import theme from '../common/theme';
+import { Title, useGetIdentity } from 'react-admin';
 import { useHistory } from 'react-router-dom';
+import theme from 'common/theme';
 
 const Dashboard = (props) => {
   let history = useHistory();
+  const identity = useGetIdentity().identity;
+  const { email } = { ...identity };
   useEffect(() => {
-    const profile = JSON.parse(sessionStorage.getItem(StorageKeys.PROFILE) || '{}');
-    console.log(profile.email);
-    if (!profile.email) history.push('/email');
+    if (!email) history.push('/email');
   }, []);
   return (
     <Box

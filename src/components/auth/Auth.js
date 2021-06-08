@@ -1,6 +1,6 @@
+import StorageKeys from 'common/constant/storage-keys';
+import Login from 'components/login/Login';
 import React, { useEffect, useState } from 'react';
-import StorageKeys from '../../common/constant/storage-keys';
-import Login from '../login/Login';
 import AuthForm from './AuthForm';
 
 const Auth = () => {
