@@ -1,24 +1,11 @@
-import Avatar from '@material-ui/core/Avatar';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Container from '@material-ui/core/Container';
+import { Avatar, Box, Button, CircularProgress, Container, Typography } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import React, { useState } from 'react';
-import { Notification, useLogin } from 'react-admin';
+import EmailRoundedIcon from '@material-ui/icons/EmailRounded';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Notification } from 'react-admin';
 import theme from '../../common/theme';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Copyright from '../common/CopyRight';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,25 +38,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+const LoginForm = ({ loading, handleLogin }) => {
   const classes = useStyles();
-  const [loading, setLoading] = useState(false);
-  const login = useLogin();
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTimeout(() => {
-      setLoading(true);
-    }, 100);
-    login();
+    handleLogin();
   };
-
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs" className={classes.root}>
-        <div className={classes.paper}>
+      <Container component="main" maxWidth="sm" className={classes.root}>
+        <form className={classes.paper} onSubmit={handleSubmit}>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+            <EmailRoundedIcon />
           </Avatar>
           <Typography color="textPrimary" gutterBottom variant="h2">
             Log in
@@ -78,18 +58,17 @@ export default function Login() {
             Log in on the internal platform
           </Typography>
           <Button
-            onClick={handleSubmit}
             type="submit"
             size="large"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            startIcon={!!loading && <CircularProgress color="inherit" size="20px" />}
+            startIcon={loading && <CircularProgress color="inherit" size="20px" />}
           >
             Login
           </Button>
-        </div>
+        </form>
         <Box mt={8}>
           <Copyright />
         </Box>
@@ -97,4 +76,11 @@ export default function Login() {
       <Notification />
     </ThemeProvider>
   );
-}
+};
+
+LoginForm.propTypes = {
+  loading: PropTypes.bool,
+  handleLogin: PropTypes.func,
+};
+
+export default LoginForm;

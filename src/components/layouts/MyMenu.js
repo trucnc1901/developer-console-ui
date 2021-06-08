@@ -40,7 +40,7 @@ const MyMenu = ({ onMenuClick, logout }) => {
   const open = useSelector((state) => state.admin.ui.sidebarOpen);
   const resources = useSelector(getResources);
   const profile = JSON.parse(sessionStorage.getItem(StorageKeys.PROFILE)) || null;
-  const { name, phone_number, avatar } = { ...profile };
+  const { name, email, avatar } = { ...profile };
   return (
     <Box className={classes.cls1}>
       {!!open && (
@@ -50,7 +50,7 @@ const MyMenu = ({ onMenuClick, logout }) => {
             {name}
           </Typography>
           <Typography color="textSecondary" variant="body2">
-            {phone_number ? phone_number : 'Null'}
+            {email ? email : 'Null'}
           </Typography>
         </Box>
       )}

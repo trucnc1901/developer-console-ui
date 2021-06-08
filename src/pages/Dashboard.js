@@ -1,8 +1,17 @@
 import { Box, Container, Grid, Typography } from '@material-ui/core';
+import { useEffect } from 'react';
 import { Title } from 'react-admin';
+import StorageKeys from '../common/constant/storage-keys';
 import theme from '../common/theme';
+import { useHistory } from 'react-router-dom';
 
 const Dashboard = (props) => {
+  let history = useHistory();
+  useEffect(() => {
+    const profile = JSON.parse(sessionStorage.getItem(StorageKeys.PROFILE) || '{}');
+    console.log(profile.email);
+    if (!profile.email) history.push('/email');
+  }, []);
   return (
     <Box
       py={3}
