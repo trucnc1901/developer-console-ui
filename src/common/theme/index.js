@@ -10,18 +10,27 @@ const theme = createMuiTheme({
     },
     primary: {
       contrastText: '#ffffff',
-      main: '#5664d2',
+      main: '#006dff',
+    },
+    secondary: {
+      main: '#ff5630',
+    },
+    error: {
+      main: '#ff5630',
+    },
+    warning: {
+      main: '#ffab00',
+    },
+    success: {
+      main: '#15b34e',
     },
     text: {
-      primary: '#172b4d',
+      primary: '#142b43',
       secondary: '#6b778c',
-      active: '#5664D2',
+      active: '#006dff',
       white: '#ffffff',
     },
     border: '#e7eaec',
-  },
-  sidebar: {
-    background: '#ffffff',
   },
   shadows,
   typography,

@@ -1,3 +1,4 @@
+import { getCookie } from 'components/common/Cookies';
 import { stringify } from 'query-string';
 import { fetchUtils } from 'react-admin';
 import StorageKeys from '../common/constant/storage-keys';
@@ -7,7 +8,7 @@ const { REACT_APP_MINIAP_BASE_API } = process.env;
 const httpClient = (url, options = {}) => {
   options.user = {
     authenticated: true,
-    token: `Bearer ${sessionStorage.getItem(StorageKeys.TOKEN)}`,
+    token: `Bearer ${getCookie(StorageKeys.TOKEN)}`,
   };
   return fetchUtils.fetchJson(url, options);
 };

@@ -1,6 +1,5 @@
 import { Avatar, Box, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
-import avatar from '../../assets/images/avatars/avatar_3.png';
 
 const useStyles = makeStyles({
   cls0: {
@@ -18,7 +17,7 @@ const UserProfile = (props) => {
   const classes = useStyles();
   return (
     <Box className={classes.cls0}>
-      <Avatar className={classes.sizeAvatar} src={avatar} />
+      <Avatar className={classes.sizeAvatar} />
       <Typography color="textPrimary" gutterBottom variant="h3"></Typography>
       <Typography color="textSecondary" variant="body1"></Typography>
     </Box>

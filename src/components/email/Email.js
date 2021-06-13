@@ -1,45 +1,41 @@
 import StorageKeys from 'common/constant/storage-keys';
+import { getCookie } from 'components/common/Cookies';
 import React, { useEffect, useState } from 'react';
 import { useCheckAuth } from 'react-admin';
-import { useHistory } from 'react-router-dom';
 import EmailForm from './EmailForm';
+import Notify from './Notify';
 
 const Email = () => {
   const checkAuth = useCheckAuth();
-  useEffect(() => {
-    checkAuth().catch(() => {});
-  }, []);
-  const history = useHistory();
   const { REACT_APP_MINIAP_API_ACTIVATE_REQUEST } = process.env;
   const [loading, setLoading] = useState(false);
-
+  const [success, setSuccess] = useState(false);
   const handleEmail = (email) => {
-    setLoading(true);
-    fetch(`${REACT_APP_MINIAP_API_ACTIVATE_REQUEST}?email=${email}`, {
-      method: 'GET',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionStorage.getItem(StorageKeys.TOKEN)}`,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.blob();
-      })
-      .then(() => {
-        setLoading(false);
-      })
-      .then(() => {
-        history.push('/confirm');
-      })
-      .catch((error) => {
-        console.error('There has been a problem with your fetch operation:', error);
-      });
+    const activateEmail = async () => {
+      try {
+        await fetch(`${REACT_APP_MINIAP_API_ACTIVATE_REQUEST}?email=${email}`, {
+          method: 'GET',
+          headers: new Headers({
+            Accept: 'application/json',
+            Authorization: `Bearer ${getCookie(StorageKeys.TOKEN)}`,
+            'Content-Type': 'application/json',
+          }),
+        });
+        setLoading(true);
+        setTimeout(() => {
+          setSuccess(true);
+        }, 600);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    activateEmail();
   };
-
-  return <EmailForm handleEmail={handleEmail} loading={loading} />;
+  useEffect(() => {
+    checkAuth().catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return !success ? <EmailForm handleEmail={handleEmail} loading={loading} /> : <Notify />;
 };
 
 export default Email;

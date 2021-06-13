@@ -22,7 +22,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     boxShadow: '0 12px 40px rgb(0 0 0 / 12%)',
     borderRadius: '16px',
-    padding: '24px',
+    padding: theme.spacing(4),
+    maxWidth: '350px',
+    width: '100%',
+    minHeight: '250px',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -66,14 +69,14 @@ const LoginForm = ({ loading, handleLogin }) => {
             className={classes.submit}
             startIcon={loading && <CircularProgress color="inherit" size="20px" />}
           >
-            Login
+            Login by Zalo
           </Button>
         </form>
         <Box mt={8}>
           <Copyright />
         </Box>
       </Container>
-      <Notification />
+      {loading && <Notification message="adsidahdkjdhajdh" variant="success" />}
     </ThemeProvider>
   );
 };

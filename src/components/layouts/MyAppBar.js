@@ -21,7 +21,9 @@ const MyUserMenu = (props) => {
 };
 
 const MyAppBar = (props) => {
-  return <AppBar {...props} userMenu={<MyUserMenu />} />;
+  return (
+    <AppBar style={{ background: 'linear-gradient(to left, #00acfa, #006dff)' }} {...props} userMenu={<MyUserMenu />} />
+  );
 };
 
 export default MyAppBar;

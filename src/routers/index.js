@@ -2,9 +2,8 @@ import React from 'react';
 import { RouteWithoutLayout } from 'react-admin';
 import { Route } from 'react-router-dom';
 import Email from '../components/email/Email';
-import EmailActive from '../components/email/EmailActive';
+import EmailActivate from '../components/email/EmailActivate';
 import Login from '../components/login/Login';
-import Confirm from '../pages/Confirm';
 import Dashboard from '../pages/Dashboard';
 import NotFound from '../pages/NotFound';
 import Setting from '../pages/Setting';
@@ -15,8 +14,7 @@ const customRoutes = [
   <RouteWithoutLayout path="/login/callback" component={Login} />,
   <RouteWithoutLayout path="/email" component={Email} />,
   <RouteWithoutLayout path="/error" component={NotFound} />,
-  <RouteWithoutLayout path="/confirm" component={Confirm} />,
-  <RouteWithoutLayout path="/active" component={EmailActive} />,
+  <RouteWithoutLayout path="/activate" component={EmailActivate} />,
 ];
 
 export default customRoutes;

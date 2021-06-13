@@ -1,15 +1,12 @@
 import { Box, Container, Grid, Typography } from '@material-ui/core';
-import { useEffect } from 'react';
-import { Title, useGetIdentity } from 'react-admin';
-import { useHistory } from 'react-router-dom';
 import theme from 'common/theme';
-
+import { useEffect } from 'react';
+import { Title, useCheckAuth } from 'react-admin';
 const Dashboard = (props) => {
-  let history = useHistory();
-  const identity = useGetIdentity().identity;
-  const { email } = { ...identity };
+  const checkAuth = useCheckAuth();
   useEffect(() => {
-    if (!email) history.push('/email');
+    checkAuth().catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Box

@@ -8,6 +8,7 @@ const NotFound = () => {
   const checkAuth = useCheckAuth();
   useEffect(() => {
     checkAuth().catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Box

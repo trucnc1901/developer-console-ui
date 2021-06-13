@@ -1,27 +1,34 @@
-import StorageKeys from 'common/constant/storage-keys';
 import queryString from 'query-string';
 import { useLogin } from 'ra-core';
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import LoginForm from './LoginForm';
+import { Loading } from 'ra-ui-materialui';
+import React, { useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
   const login = useLogin();
-  let location = useLocation();
-  const auth_code = queryString.parse(location.search).code;
+  const location = useLocation();
+  const history = useHistory();
+  const auth = queryString.parse(location.search).code;
 
   useEffect(() => {
-    if (auth_code) {
-      localStorage.setItem(StorageKeys.AUTH_CODE, auth_code);
-    }
+    const signIn = async () => {
+      try {
+        await login({ auth }).then((user) => {
+          if (user.email === '') {
+            setTimeout(() => {
+              history.push('/email');
+            }, 600);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    signIn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const handleLogin = () => {
-    setLoading(true);
-    login();
-  };
 
-  return <LoginForm handleLogin={handleLogin} loading={loading} />;
+  return <Loading loadingPrimary="" loadingSecondary="Loading..." />;
 };
 
 export default Login;

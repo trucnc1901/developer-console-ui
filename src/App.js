@@ -1,11 +1,12 @@
 import { ThemeProvider } from '@material-ui/core';
 import AccountCircleRounded from '@material-ui/icons/AccountCircleRounded';
+import Auth from 'components/auth/Auth';
+import MyLogoutButton from 'components/logout/MyLogoutButton';
 import { createBrowserHistory as createHistory } from 'history';
 import React from 'react';
 import { Admin, NotFound, Resource } from 'react-admin';
 import theme from './common/theme';
 import GlobalStyles from './common/theme/GlobalStyle';
-import Auth from './components/auth/Auth';
 import MyLayout from './components/layouts/MyLayout';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
@@ -27,8 +28,9 @@ const App = () => {
         loginPage={Auth}
         dashboard={Dashboard}
         customRoutes={customRoutes}
+        logoutButton={MyLogoutButton}
       >
-        <Resource name="users/me" options={{ label: 'Profile' }} list={Profile} icon={AccountCircleRounded} />
+        <Resource name="profile" options={{ label: 'Profile' }} list={Profile} icon={AccountCircleRounded} />
       </Admin>
     </ThemeProvider>
   );

@@ -1,11 +1,10 @@
-import { Avatar, Box, Button, CircularProgress, Container, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, Container, Typography } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import CodeRoundedIcon from '@material-ui/icons/CodeRounded';
 import theme from 'common/theme';
 import Copyright from 'components/common/CopyRight';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Notification } from 'react-admin';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +21,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     boxShadow: '0 12px 40px rgb(0 0 0 / 12%)',
     borderRadius: '16px',
-    padding: '24px',
+    padding: theme.spacing(4),
+    maxWidth: '350px',
+    width: '100%',
+    minHeight: '250px',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -43,35 +45,15 @@ const oauth2Endpoint = 'https://oauth.zaloapp.com/v3/permission';
 const params = {
   app_id: '499973553904625500',
   redirect_uri: `${REACT_APP_MINIAP_API_BASE_URL}/login/callback`,
-  state: 'https://dev-console.zalopay.vn',
+  state: encodeURIComponent(window.location.href),
 };
 
-const AuthForm = ({ loading, handleAuth }) => {
+const AuthForm = (props) => {
   const classes = useStyles();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    fetch(`${oauth2Endpoint}?app_id=${params.app_id}&redirect_uri=${params.redirect_uri}&state=${params.state}`, {
-      method: 'GET',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.blob();
-      })
-      .catch((error) => {
-        console.error('There has been a problem with your fetch operation:', error);
-      });
-    handleAuth();
-  };
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="sm" className={classes.root}>
-        <form className={classes.paper} onSubmit={handleSubmit}>
+        <form className={classes.paper}>
           <Avatar className={classes.avatar}>
             <CodeRoundedIcon />
           </Avatar>
@@ -79,16 +61,16 @@ const AuthForm = ({ loading, handleAuth }) => {
             Authorization
           </Typography>
           <Typography color="textSecondary" gutterBottom variant="body2">
-            Login Zalo to continue.
+            Log in on the internal platform
           </Typography>
           <Button
+            href={`${oauth2Endpoint}?app_id=${params.app_id}&redirect_uri=${params.redirect_uri}&state=${params.state}`}
             type="submit"
             size="large"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            startIcon={loading && <CircularProgress color="inherit" size="20px" />}
           >
             Login by Zalo
           </Button>
@@ -97,7 +79,6 @@ const AuthForm = ({ loading, handleAuth }) => {
           <Copyright />
         </Box>
       </Container>
-      <Notification />
     </ThemeProvider>
   );
 };

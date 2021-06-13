@@ -1,105 +1,100 @@
+import { getCookie, setCookie, deleteCookie } from 'components/common/Cookies';
 import decodeJwt from 'jwt-decode';
-import { fetchUtils } from 'react-admin';
 import StorageKeys from '../common/constant/storage-keys';
 
-const {
-  REACT_APP_MINIAP_AUTHEN_CODE,
-  REACT_APP_MINIAP_API_LOGIN,
-  REACT_APP_MINIAP_API_LOGOUT,
-  REACT_APP_MINIAP_API_PROFILE,
-} = process.env;
+const { REACT_APP_MINIAP_API_LOGIN, REACT_APP_MINIAP_API_PROFILE } = process.env;
 
-const GetProfile = async () => {
+export const GetProfile = async () => {
   try {
     const response = await fetch(REACT_APP_MINIAP_API_PROFILE, {
       method: 'GET',
       headers: new Headers({
+        Authorization: `Bearer ${getCookie(StorageKeys.TOKEN)}`,
         Accept: 'application/json',
-        Authorization: `Bearer ${sessionStorage.getItem(StorageKeys.TOKEN)}`,
+        'Content-Type': 'application/json',
       }),
     });
     const data = await response.json();
-    sessionStorage.setItem(StorageKeys.PROFILE, JSON.stringify(data));
-    // return response;
-  } catch (e) {
-    console.log('Get User info failed!');
-    console.error(e);
+    if (data) {
+      localStorage.setItem(StorageKeys.PROFILE, JSON.stringify(data));
+    }
+    return data;
+  } catch (error) {
+    console.log('Get User info failed!', error);
+    return Promise.reject();
   }
 };
 
 const authProvider = {
-  login: async () => {
+  login: async ({ auth }) => {
     try {
-      const response = await fetch(`${REACT_APP_MINIAP_API_LOGIN}=${REACT_APP_MINIAP_AUTHEN_CODE}`, {
+      const response = await fetch(`${REACT_APP_MINIAP_API_LOGIN}?auth_code=${auth}`, {
         method: 'GET',
         headers: new Headers({
           Accept: 'application/json',
+          'Content-Type': 'application/json',
         }),
       });
       const data = await response.json();
       const token = await data.access_token;
-      await sessionStorage.setItem(StorageKeys.TOKEN, token);
-      await GetProfile();
-      // return response;
+      if (token) {
+        setCookie('access_token', token, 3);
+      }
+      return Promise.resolve(GetProfile());
     } catch (error) {
-      console.log('Login failed');
-      console.log('error', error);
+      Promise.reject();
+      console.log('Login failed', error);
     }
-    return Promise.resolve();
   },
   checkError: (error) => {
     const status = error.status;
     if (status === 401 || status === 403) {
-      sessionStorage.clear();
-      return Promise.reject({ message: false });
+      deleteCookie(StorageKeys.TOKEN);
+      return Promise.reject();
     }
 
     if (status === 404) {
-      return Promise.reject({ redirectTo: '/error' });
+      return Promise.reject();
     }
     return Promise.resolve();
   },
   checkAuth: () => {
-    const token = sessionStorage.getItem(StorageKeys.TOKEN);
+    const token = getCookie(StorageKeys.TOKEN);
     const now = new Date();
     let jwt = '';
     if (token) {
       jwt = decodeJwt(token, { complete: true });
-      sessionStorage.setItem(StorageKeys.SESSEION_ID, jwt.session_id);
+      localStorage.setItem(StorageKeys.SESSEION_ID, jwt.session_id);
     }
-    if (!token || now.getTime() > jwt.exp * 1000) {
-      sessionStorage.clear();
-      return Promise.reject({ message: 'login.required' });
+
+    if (now.getTime() > jwt.exp * 1000) {
+      localStorage.clear();
+    }
+    if (!token) {
+      return Promise.reject();
     }
     return Promise.resolve();
   },
-
   logout: () => {
     try {
-      fetch(REACT_APP_MINIAP_API_LOGOUT, {
-        method: 'GET',
-        headers: new Headers({
-          Accept: 'application/json',
-          Authorization: `Bearer ${sessionStorage.getItem(StorageKeys.TOKEN)}`,
-        }),
-      });
+      localStorage.clear();
+      deleteCookie(StorageKeys.TOKEN);
     } catch (error) {
-      console.log('Logout failed');
-      console.log('error', error);
+      console.log('Logout failed', error);
+      return Promise.reject();
     }
-    sessionStorage.clear();
     return Promise.resolve();
   },
   getIdentity: () => {
     try {
-      const { id, name, avatar, phone_number, email } = JSON.parse(sessionStorage.getItem(StorageKeys.PROFILE));
-      return Promise.resolve({ id, name, avatar, phone_number, email });
+      const { avatar, email, id, name } = JSON.parse(localStorage.getItem(StorageKeys.PROFILE));
+      return Promise.resolve({ avatar, email, id, name });
     } catch (error) {
       return Promise.reject(error);
     }
   },
   getPermissions: () => {
-    const role = sessionStorage.getItem(StorageKeys.SESSEION_ID);
+    const role = localStorage.getItem(StorageKeys.SESSEION_ID);
     return role ? Promise.resolve(role) : Promise.reject();
   },
 };
