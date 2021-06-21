@@ -1,29 +1,9 @@
-import { getCookie, setCookie, deleteCookie } from 'components/common/Cookies';
+import { deleteCookie, getCookie, setCookie } from 'components/common/Cookies';
+import { GetProfile } from 'components/common/request/GetProfile';
 import decodeJwt from 'jwt-decode';
 import StorageKeys from '../common/constant/storage-keys';
 
-const { REACT_APP_MINIAP_API_LOGIN, REACT_APP_MINIAP_API_PROFILE } = process.env;
-
-export const GetProfile = async () => {
-  try {
-    const response = await fetch(REACT_APP_MINIAP_API_PROFILE, {
-      method: 'GET',
-      headers: new Headers({
-        Authorization: `Bearer ${getCookie(StorageKeys.TOKEN)}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      }),
-    });
-    const data = await response.json();
-    if (data) {
-      localStorage.setItem(StorageKeys.PROFILE, JSON.stringify(data));
-    }
-    return data;
-  } catch (error) {
-    console.log('Get User info failed!', error);
-    return Promise.reject();
-  }
-};
+const { REACT_APP_MINIAP_API_LOGIN } = process.env;
 
 const authProvider = {
   login: async ({ auth }) => {
@@ -32,7 +12,6 @@ const authProvider = {
         method: 'GET',
         headers: new Headers({
           Accept: 'application/json',
-          'Content-Type': 'application/json',
         }),
       });
       const data = await response.json();
@@ -41,9 +20,9 @@ const authProvider = {
         setCookie('access_token', token, 3);
       }
       return Promise.resolve(GetProfile());
-    } catch (error) {
-      Promise.reject();
-      console.log('Login failed', error);
+    } catch (e) {
+      console.log(e);
+      return Promise.reject();
     }
   },
   checkError: (error) => {
@@ -53,7 +32,7 @@ const authProvider = {
       return Promise.reject();
     }
 
-    if (status === 404) {
+    if (status === 500) {
       return Promise.reject();
     }
     return Promise.resolve();

@@ -1,40 +1,35 @@
-import StorageKeys from 'common/constant/storage-keys';
-import { getCookie } from 'components/common/Cookies';
-import React, { useEffect, useState } from 'react';
-import { useCheckAuth } from 'react-admin';
+import { httpClient } from 'common/utils/request/common';
+import InternalServer from 'components/common/errors/InternalServer';
+import React, { useState } from 'react';
 import EmailForm from './EmailForm';
 import Notify from './Notify';
 
 const Email = () => {
-  const checkAuth = useCheckAuth();
   const { REACT_APP_MINIAP_API_ACTIVATE_REQUEST } = process.env;
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
   const handleEmail = (email) => {
     const activateEmail = async () => {
+      const url = `${REACT_APP_MINIAP_API_ACTIVATE_REQUEST}?email=${email}`;
       try {
-        await fetch(`${REACT_APP_MINIAP_API_ACTIVATE_REQUEST}?email=${email}`, {
-          method: 'GET',
-          headers: new Headers({
-            Accept: 'application/json',
-            Authorization: `Bearer ${getCookie(StorageKeys.TOKEN)}`,
-            'Content-Type': 'application/json',
-          }),
+        await httpClient(url).then(({ status }) => {
+          if (status !== 200) {
+            setError(true);
+            return;
+          }
+          setLoading(true);
+          setTimeout(() => {
+            setSuccess(true);
+          }, 600);
         });
-        setLoading(true);
-        setTimeout(() => {
-          setSuccess(true);
-        }, 600);
       } catch (error) {
-        console.log(error.message);
+        console.log(error);
       }
     };
     activateEmail();
   };
-  useEffect(() => {
-    checkAuth().catch(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  if (error) return <InternalServer />;
   return !success ? <EmailForm handleEmail={handleEmail} loading={loading} /> : <Notify />;
 };
 

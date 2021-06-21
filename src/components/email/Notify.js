@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { GetProfile } from 'providers/authProvider';
+import { GetProfile } from 'components/common/request/GetProfile';
 import { useEffect } from 'react';
 import { useCheckAuth } from 'react-admin';
 import { useHistory } from 'react-router-dom';
@@ -32,7 +32,7 @@ const NotFound = () => {
       const autoRefresh = async () => {
         await GetProfile().then((value) => {
           if (value.email !== '') {
-            history.push('/dashboard');
+            history.push('/');
           }
         });
       };

@@ -1,13 +1,27 @@
+import { createBrowserHistory as createHistory } from 'history';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import adminStore from 'stores/adminStore';
 import App from './App';
+import authProvider from './providers/authProvider';
+import dataProvider from './providers/dataProvider';
 import reportWebVitals from './reportWebVitals';
+const history = createHistory();
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Provider
+    store={adminStore({
+      authProvider,
+      dataProvider,
+      history,
+    })}
+  >
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 

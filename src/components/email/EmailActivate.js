@@ -4,10 +4,9 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import StorageKeys from 'common/constant/storage-keys';
 import theme from 'common/theme';
-import { getCookie } from 'components/common/Cookies';
-import { GetProfile } from 'providers/authProvider';
+import { httpClient } from 'common/utils/request/common';
+import { GetProfile } from 'components/common/request/GetProfile';
 import queryString from 'query-string';
-import { useCheckAuth } from 'ra-core';
 import { Link, Loading } from 'ra-ui-materialui';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -39,35 +38,27 @@ const status = {
 
 const EmailActive = () => {
   const classes = useStyles();
-  const checkAuth = useCheckAuth();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
   const code = queryString.parse(location.search).code;
   useEffect(() => {
     const activateEmail = async () => {
+      const url = `${REACT_APP_MINIAP_API_CONFIRM_REQUEST}?code=${code}`;
       try {
-        await fetch(`${REACT_APP_MINIAP_API_CONFIRM_REQUEST}?code=${code}`, {
-          method: 'GET',
-          headers: new Headers({
-            Accept: 'application/json',
-            Authorization: `Bearer ${getCookie(StorageKeys.TOKEN)}`,
-            'Content-Type': 'application/json',
-          }),
-        });
-        await GetProfile().then((value) => {
-          const user = { ...value };
-          localStorage.setItem(StorageKeys.PROFILE, JSON.stringify(user));
+        httpClient(url).then(({ status }) => {
+          if (status !== 200) setSuccess(true);
+          GetProfile().then((value) => {
+            const user = { ...value };
+            localStorage.setItem(StorageKeys.PROFILE, JSON.stringify(user));
+          });
         });
         setLoading(false);
       } catch (error) {
-        setLoading(false);
-        setSuccess(true);
-        console.log(error.message);
+        console.log(error);
       }
     };
     activateEmail();
-    checkAuth().catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (loading) return <Loading loadingPrimary="" loadingSecondary="Loading..." />;

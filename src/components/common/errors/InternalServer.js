@@ -1,8 +1,13 @@
-import { Box, Container, Typography, Button } from '@material-ui/core';
+import { Box, Button, Container, Typography } from '@material-ui/core';
 import Status from 'common/constant/status';
 import theme from 'common/theme';
+import { useHistory } from 'react-router-dom';
 
-const NotFound = () => {
+const InternalServer = (props) => {
+  const history = useHistory();
+  const handleClick = () => {
+    history.goBack();
+  };
   return (
     <Box
       style={{
@@ -18,27 +23,24 @@ const NotFound = () => {
         <Box style={{ textAlign: 'center' }}>
           <img
             alt="Under development"
-            src={Status.ERROR_404.image}
+            src={Status.ERROR_500.image}
             style={{
               marginBottom: 30,
               display: 'inline-block',
               maxWidth: '100%',
-              width: 400,
+              width: 350,
             }}
           />
         </Box>
-        <Typography align="center" color="textPrimary" gutterBottom variant="h1">
-          {Status.ERROR_404.title}
+        <Typography align="center" color="textPrimary" gutterBottom variant="h2">
+          {Status.ERROR_500.title}
         </Typography>
-        <Typography align="center" color="textPrimary" variant="subtitle1" gutterBottom>
-          {Status.ERROR_404.text}
-        </Typography>
-        <Button variant="text" color="primary" href="/login">
-          Back to homepage
+        <Button variant="text" color="primary" onClick={handleClick}>
+          Go back
         </Button>
       </Container>
     </Box>
   );
 };
 
-export default NotFound;
+export default InternalServer;

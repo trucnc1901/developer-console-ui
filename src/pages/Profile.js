@@ -1,14 +1,8 @@
 import { Box, Container, Grid, Typography } from '@material-ui/core';
 import theme from 'common/theme';
-import { useEffect } from 'react';
-import { Title, useCheckAuth } from 'react-admin';
+import { Title } from 'react-admin';
 
 const Profile = (props) => {
-  const checkAuth = useCheckAuth();
-  useEffect(() => {
-    checkAuth().catch(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <Box
       py={3}

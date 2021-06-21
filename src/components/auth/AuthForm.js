@@ -40,20 +40,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const { REACT_APP_MINIAP_API_BASE_URL } = process.env;
-const oauth2Endpoint = 'https://oauth.zaloapp.com/v3/permission';
-const params = {
-  app_id: '499973553904625500',
-  redirect_uri: `${REACT_APP_MINIAP_API_BASE_URL}/login/callback`,
-  state: encodeURIComponent(window.location.href),
-};
-
 const AuthForm = (props) => {
+  const { REACT_APP_MINIAP_API_BASE_URL } = process.env;
   const classes = useStyles();
+
+  const redirectLogin = () => {
+    const oauth2Endpoint = 'https://oauth.zaloapp.com/v3/permission';
+    const cbURL = window.location.href;
+    const params = {
+      app_id: '499973553904625500',
+      redirect_uri: `${REACT_APP_MINIAP_API_BASE_URL}/login/callback`,
+      state: encodeURIComponent(cbURL),
+    };
+    const url = `${oauth2Endpoint}?app_id=${params.app_id}&redirect_uri=${params.redirect_uri}&state=${params.state}f=1`;
+    setTimeout(() => {
+      window.location = url;
+    }, 600);
+  };
+
+  // useEffect(() => {
+  //   setCookie('_stt', params.state, 2);
+  // }, []);
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="sm" className={classes.root}>
-        <form className={classes.paper}>
+        <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <CodeRoundedIcon />
           </Avatar>
@@ -64,7 +75,7 @@ const AuthForm = (props) => {
             Log in on the internal platform
           </Typography>
           <Button
-            href={`${oauth2Endpoint}?app_id=${params.app_id}&redirect_uri=${params.redirect_uri}&state=${params.state}`}
+            onClick={redirectLogin}
             type="submit"
             size="large"
             fullWidth
@@ -74,7 +85,7 @@ const AuthForm = (props) => {
           >
             Login by Zalo
           </Button>
-        </form>
+        </div>
         <Box mt={8}>
           <Copyright />
         </Box>

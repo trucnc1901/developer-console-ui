@@ -26,7 +26,7 @@ const dataProvider = {
 
     return httpClient(url).then(({ headers, json }) => ({
       data: json,
-      total: 10,
+      total: parseInt(headers.get('content-range').split('/').pop(), 10),
     }));
   },
 

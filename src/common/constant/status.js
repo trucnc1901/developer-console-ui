@@ -1,18 +1,23 @@
 const Status = {
+  ERROR_400: {
+    image: '/static/images/status/coming_soon.svg',
+    title: '400: That is an error',
+    text: '',
+  },
   ERROR_401: {
     image: '/static/images/status/error401.svg',
     title: '401: Authorization required',
-    text: 'You either tried some shady route or you came here by mistake. Whichever it is, try using the navigation.',
+    text: '',
   },
   ERROR_404: {
-    image: '/static/images/status/error404.svg',
+    image: '/static/images/status/ERROR_404.svg',
     title: '404: The page you are looking for isn’t here',
     text: 'You either tried some shady route or you came here by mistake. Whichever it is, try using the navigation.',
   },
   ERROR_500: {
     image: '/static/images/status/error500.svg',
     title: '500: Internal Server Error',
-    text: 'You either tried some shady route or you came here by mistake. Whichever it is, try using the navigation.',
+    text: '',
   },
   COMING_SOON: {
     image: '/static/images/status/coming_soon.svg',
