@@ -2,8 +2,8 @@ import { Avatar, Box, Divider, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import DefaultIcon from '@material-ui/icons/ViewList';
 import theme from 'common/theme';
-import React, { useEffect, useState } from 'react';
-import { DashboardMenuItem, getResources, Loading, MenuItemLink, useGetIdentity } from 'react-admin';
+import React from 'react';
+import { DashboardMenuItem, getResources, MenuItemLink, useGetIdentity } from 'react-admin';
 import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
@@ -39,26 +39,17 @@ const MyMenu = ({ onMenuClick, logout }) => {
   const classes = useStyles();
   const open = useSelector((state) => state.admin.ui.sidebarOpen);
   const resources = useSelector(getResources);
-  // const loggedInUser = useSelector((state) => state.user.current);
-  const { identity, loading: identityLoading } = useGetIdentity();
-  const { avatar, name, email } = { ...identity };
-  const [user, setUser] = useState({ avatar, name, email });
-  useEffect(() => {
-    setUser({ avatar, name, email });
-  }, [avatar, email, identity, name]);
-
-  return identityLoading ? (
-    <Loading />
-  ) : (
+  const { identity } = useGetIdentity();
+  return (
     <Box className={classes.cls1}>
       {!!open && (
         <Box py={2} className={classes.cls2}>
-          <Avatar src={user ? user.avatar : ''} className={classes.avatar} />
+          <Avatar src={identity ? identity.avatar : ''} className={classes.avatar} />
           <Typography color="textPrimary" variant="h5">
-            {user ? user.name : ''}
+            {identity ? identity.name : ''}
           </Typography>
           <Typography color="textSecondary" variant="body2">
-            {user ? user.email : 'Updating...'}
+            {identity ? identity.email : 'Updating...'}
           </Typography>
         </Box>
       )}

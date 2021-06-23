@@ -23,18 +23,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NotFound = () => {
+const Notify = () => {
   const classes = useStyles();
   const history = useHistory();
   const checkAuth = useCheckAuth();
   useEffect(() => {
     const id = setInterval(() => {
       const autoRefresh = async () => {
-        await GetProfile().then((value) => {
-          if (value.email !== '') {
-            history.push('/');
-          }
-        });
+        try {
+          await GetProfile().then((value) => {
+            if (value.email !== '') {
+              history.push('/');
+            }
+          });
+        } catch (error) {
+          console.log(error);
+        }
       };
       autoRefresh();
     }, 10000);
@@ -58,4 +62,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default Notify;

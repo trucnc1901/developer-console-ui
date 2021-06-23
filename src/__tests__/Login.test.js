@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import Login from 'components/login/Login';
 import { createMemoryHistory } from 'history';
 import authProvider from 'providers/authProvider';
@@ -13,20 +13,22 @@ beforeEach(() => {
 
 test('allows the user to login successfully', () => {
   const history = createMemoryHistory();
-  render(
-    <Router history={history}>
-      <Provider
-        store={adminStore({
-          authProvider,
-          dataProvider,
-          history,
-        })}
-      >
-        <Login />
-      </Provider>
-    </Router>
-  );
-  expect(screen.getByText(/Loading/)).toBeInTheDocument();
+  act(() => {
+    render(
+      <Router history={history}>
+        <Provider
+          store={adminStore({
+            authProvider,
+            dataProvider,
+            history,
+          })}
+        >
+          <Login />
+        </Provider>
+      </Router>
+    );
+  });
+  expect(screen.getByText('Loading')).toBeInTheDocument();
 });
 
 // test('should test httpClient correct', async () => {

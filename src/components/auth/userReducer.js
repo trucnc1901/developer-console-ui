@@ -1,7 +1,8 @@
 import StorageKeys from 'common/constant/storage-keys';
+import queryString from 'query-string';
 
 const initialState = {
-  current: JSON.parse(localStorage.getItem(StorageKeys.PROFILE)) || {},
+  current: queryString.parse(localStorage.getItem(StorageKeys.PROFILE)) || {},
 };
 
 // Use the initialState as a default value

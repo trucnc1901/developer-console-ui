@@ -17,7 +17,7 @@ const App = () => {
   const history = createHistory();
   const { loading, authenticated } = useAuthState();
   if (loading) {
-    return <LoadingPage loadingPrimary="" loadingSecondary="Loading..." />;
+    return <LoadingPage loadingPrimary="Loading" />;
   }
   if (authenticated) {
     return (
@@ -39,7 +39,6 @@ const App = () => {
       </ThemeProvider>
     );
   }
-  return <NotFound />;
 };
 
 export default App;

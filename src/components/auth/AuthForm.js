@@ -44,7 +44,8 @@ const AuthForm = (props) => {
   const { REACT_APP_MINIAP_API_BASE_URL } = process.env;
   const classes = useStyles();
 
-  const redirectLogin = () => {
+  const redirectLogin = (e) => {
+    e.preventDefault();
     const oauth2Endpoint = 'https://oauth.zaloapp.com/v3/permission';
     const cbURL = window.location.href;
     const params = {

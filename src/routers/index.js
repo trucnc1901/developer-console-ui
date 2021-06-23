@@ -1,4 +1,3 @@
-import Error from 'components/common/errors/Error';
 import InternalServer from 'components/common/errors/InternalServer';
 import NotFound from 'pages/NotFound';
 import React from 'react';
@@ -29,15 +28,7 @@ const customRoutes = [
       </Authenticated>
     )}
   />,
-  <RouteWithoutLayout
-    exact
-    path="/login/callback"
-    render={() => (
-      <Authenticated>
-        <Login />
-      </Authenticated>
-    )}
-  />,
+  <RouteWithoutLayout exact path="/login/callback" render={() => <Login />} />,
   <RouteWithoutLayout
     exact
     path="/email"
@@ -65,7 +56,6 @@ const customRoutes = [
       </Authenticated>
     )}
   />,
-  <RouteWithoutLayout exact path="/error" component={Error} />,
   <RouteWithoutLayout exact path="/500" component={InternalServer} />,
 ];
 
