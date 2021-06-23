@@ -1,0 +1,49 @@
+stages:
+  - build
+  - publish
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "staging"'
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+compile:
+  stage: build
+  script:
+    - npm install
+    - npm run build
+  tags:
+    - shell-executor-8326
+
+sync-dev:
+  stage: publish
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+  variables:
+    GIT_STRATEGY: none
+    DEST: "data/developer-console-ui/miniapps-console"
+    DEV_SERVER: "10.30.83.2"
+  script:
+    - echo 'Sync Develop'
+    - rsync -avh build/* ${DEV_SERVER}::${DEST}
+    - echo "Done process ...."
+  dependencies:
+    - compile
+  tags:
+    - shell-executor-8326
+  
+sync-stg:
+  stage: publish
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "staging"'
+      when: manual
+  variables:
+    GIT_STRATEGY: none
+    DEST: "data/developer-console-ui/miniapps-console"
+    DEV_SERVER: "10.30.83.3"
+  script:
+    - echo 'Sync Staging'
+    - rsync -avh build/* ${DEV_SERVER}::${DEST}
+    - echo "Done process ...."
+  dependencies:
+    - compile
+  tags:
+    - shell-executor-8326
