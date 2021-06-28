@@ -4,7 +4,7 @@ import Auth from 'components/auth/Auth';
 import MyLogoutButton from 'components/logout/MyLogoutButton';
 import { createBrowserHistory as createHistory } from 'history';
 import React from 'react';
-import { Admin, LoadingPage, NotFound, Resource, useAuthState } from 'react-admin';
+import { Admin, Loading, NotFound, Resource, useAuthState } from 'react-admin';
 import theme from './common/theme';
 import GlobalStyles from './common/theme/GlobalStyle';
 import MyLayout from './components/layouts/MyLayout';
@@ -17,7 +17,7 @@ const App = () => {
   const history = createHistory();
   const { loading, authenticated } = useAuthState();
   if (loading) {
-    return <LoadingPage loadingPrimary="Loading" />;
+    return <Loading loadingPrimary="Loading" />;
   }
   if (authenticated) {
     return (

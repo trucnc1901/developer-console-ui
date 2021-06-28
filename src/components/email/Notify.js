@@ -1,9 +1,8 @@
 import { Box, Container, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { GetProfile } from 'components/common/request/GetProfile';
 import { useEffect } from 'react';
-import { useCheckAuth } from 'react-admin';
 import { useHistory } from 'react-router-dom';
+import { getProfile } from 'services/api/httpClient';
 
 const imageURL = '/static/images/confirm.svg';
 
@@ -26,23 +25,19 @@ const useStyles = makeStyles((theme) => ({
 const Notify = () => {
   const classes = useStyles();
   const history = useHistory();
-  const checkAuth = useCheckAuth();
   useEffect(() => {
     const id = setInterval(() => {
       const autoRefresh = async () => {
-        try {
-          await GetProfile().then((value) => {
-            if (value.email !== '') {
-              history.push('/');
-            }
-          });
-        } catch (error) {
-          console.log(error);
-        }
+        await getProfile.requestApi().then((res) => {
+          const { data } = res.data;
+          const { email } = { ...data };
+          if (email !== '') {
+            history.push('/');
+          }
+        });
       };
       autoRefresh();
-    }, 10000);
-    checkAuth().catch(() => {});
+    }, 1000);
     return () => {
       clearInterval(id);
     };

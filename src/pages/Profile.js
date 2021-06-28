@@ -25,10 +25,7 @@ const Profile = (props) => {
   const { avatar, name, email } = { ...identity };
   const [user, setUser] = useState({});
   useEffect(() => {
-    const fetchProfile = async () => {
-      setUser({ avatar, name, email });
-    };
-    fetchProfile();
+    setUser({ avatar, name, email });
   }, [avatar, name, email]);
   return (
     <Box

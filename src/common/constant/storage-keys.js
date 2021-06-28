@@ -1,6 +1,6 @@
 const StorageKeys = {
-  PROFILE: 'profile',
-  TOKEN: 'access_token',
+  PROFILE: 'user',
+  TOKEN: 'ds_token',
   AUTH_CODE: 'auth_code',
   SESSEION_ID: 'session_id',
 };

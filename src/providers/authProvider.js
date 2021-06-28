@@ -17,15 +17,14 @@ const authProvider = {
     const token = getCookie(StorageKeys.TOKEN);
     const now = new Date();
     let jwt = '';
-    if (token) {
+    if (!token) {
+      return Promise.reject();
+    } else {
       jwt = decodeJwt(token, { complete: true });
-      localStorage.setItem(StorageKeys.SESSEION_ID, jwt.session_id);
     }
     if (now.getTime() > jwt.exp * 1000) {
       localStorage.clear();
       deleteCookie(StorageKeys.TOKEN);
-    }
-    if (!token) {
       return Promise.reject();
     }
     return Promise.resolve();
@@ -42,8 +41,8 @@ const authProvider = {
   },
   getIdentity: () => {
     try {
-      const { avatar, email, id, name } = queryString.parse(localStorage.getItem(StorageKeys.PROFILE));
-      return Promise.resolve({ avatar, email, id, name });
+      const { avatar, email, id, name, status } = queryString.parse(localStorage.getItem(StorageKeys.PROFILE));
+      return Promise.resolve({ avatar, email, id, name, status });
     } catch (error) {
       return Promise.reject(error);
     }

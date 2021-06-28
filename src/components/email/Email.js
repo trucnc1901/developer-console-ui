@@ -1,37 +1,29 @@
 import Alert from '@material-ui/lab/Alert';
-import { httpClient } from 'common/utils/request/common';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { userActivate } from 'services/api/httpClient';
 import EmailForm from './EmailForm';
 import Notify from './Notify';
 
 const Email = () => {
-  const { REACT_APP_MINIAP_API_ACTIVATE_REQUEST } = process.env;
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState();
-  const history = useHistory();
   const handleEmail = (email) => {
-    const activateEmail = async () => {
-      const url = `${REACT_APP_MINIAP_API_ACTIVATE_REQUEST}?email=${email}`;
-      try {
-        await httpClient(url).then(({ status }) => {
-          if (status === 401) {
-            setError('Authorization required');
-            setTimeout(() => {
-              history.push('/login');
-            }, 600);
-          }
+    setLoading(true);
+    const fetchEmail = async () => {
+      await userActivate
+        .requestApi(email)
+        .then(() => {
           setTimeout(() => {
-            setSuccess(false);
-          }, 600);
+            setSuccess(true);
+          }, 1000);
+        })
+        .catch((err) => {
+          setError(err);
+          setLoading(false);
         });
-        setLoading(true);
-      } catch (error) {
-        setError(error);
-      }
     };
-    activateEmail();
+    fetchEmail();
   };
 
   if (error)
@@ -40,7 +32,9 @@ const Email = () => {
         {error}
       </Alert>
     );
-  return success ? <EmailForm handleEmail={handleEmail} loading={loading} /> : <Notify />;
+  if (success) return <Notify />;
+
+  return <EmailForm handleEmail={handleEmail} loading={loading} />;
 };
 
 export default Email;

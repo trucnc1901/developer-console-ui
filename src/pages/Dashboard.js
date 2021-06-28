@@ -1,5 +1,6 @@
 import { Box, Container, Grid, Typography } from '@material-ui/core';
 import theme from 'common/theme';
+import React from 'react';
 import { Title } from 'react-admin';
 
 const Dashboard = (props) => {

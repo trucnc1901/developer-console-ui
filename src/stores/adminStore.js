@@ -1,9 +1,10 @@
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import { routerMiddleware, connectRouter } from 'connected-react-router';
-import createSagaMiddleware from 'redux-saga';
-import { all, fork } from 'redux-saga/effects';
+import userReducer from 'components/login/userReducer';
+import { userSaga } from 'components/login/userSaga';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { adminReducer, adminSaga, USER_LOGOUT } from 'react-admin';
-import userReducer from 'components/auth/userReducer';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { all } from 'redux-saga/effects';
 
 const adminStore = ({ authProvider, dataProvider, history }) => {
   const reducer = combineReducers({
@@ -15,12 +16,11 @@ const adminStore = ({ authProvider, dataProvider, history }) => {
   const resettableAppReducer = (state, action) => reducer(action.type !== USER_LOGOUT ? state : undefined, action);
 
   const saga = function* rootSaga() {
-    yield all(
-      [
-        adminSaga(dataProvider, authProvider),
-        // add your own sagas here
-      ].map(fork)
-    );
+    yield all([
+      adminSaga(dataProvider, authProvider),
+      userSaga(),
+      // add your own sagas here
+    ]);
   };
   const sagaMiddleware = createSagaMiddleware();
 

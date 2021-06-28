@@ -38,18 +38,20 @@ const useStyles = makeStyles({
 const MyMenu = ({ onMenuClick, logout }) => {
   const classes = useStyles();
   const open = useSelector((state) => state.admin.ui.sidebarOpen);
+  // const user = useSelector((state) => state.user.data);
   const resources = useSelector(getResources);
   const { identity } = useGetIdentity();
+  const { avatar, email, name } = { ...identity };
   return (
     <Box className={classes.cls1}>
       {!!open && (
         <Box py={2} className={classes.cls2}>
-          <Avatar src={identity ? identity.avatar : ''} className={classes.avatar} />
+          <Avatar src={avatar && avatar} className={classes.avatar} />
           <Typography color="textPrimary" variant="h5">
-            {identity ? identity.name : ''}
+            {name && name}
           </Typography>
           <Typography color="textSecondary" variant="body2">
-            {identity ? identity.email : 'Updating...'}
+            {email ? email : 'Updating...'}
           </Typography>
         </Box>
       )}

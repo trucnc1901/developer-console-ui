@@ -13,9 +13,9 @@ export const GetProfile = async () => {
       Connection: 'keep-alive',
     }),
   });
-  const data = await response.json();
-  if (data) {
-    localStorage.setItem(StorageKeys.PROFILE, queryString.stringify(data));
+  const result = await response.json();
+  if (result.data) {
+    localStorage.setItem(StorageKeys.PROFILE, queryString.stringify(result.data));
   }
-  return data;
+  return result.data;
 };
