@@ -24,7 +24,7 @@ const Login = (props) => {
   const token = getCookie(StorageKeys.TOKEN);
   const auth = queryString.parse(location.search).code;
   useEffect(() => {
-    const SignIn = () => {
+    const SignIn = async () => {
       login(auth, function () {
         if (token) {
           getProfile

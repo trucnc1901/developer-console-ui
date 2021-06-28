@@ -18,13 +18,13 @@ export function useLogin() {
         setCookie(StorageKeys.TOKEN, access_token, 3);
         localStorage.setItem(StorageKeys.SESSEION_ID, session_id);
         setLoading(false);
+        callback();
       })
       .catch((err) => {
         console.log(err.message);
         setErrorAuth(err.message);
         setLoading(false);
       });
-    callback();
   };
 
   return { loading, errorAuth, login };
