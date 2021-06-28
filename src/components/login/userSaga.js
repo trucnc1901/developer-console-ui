@@ -1,6 +1,6 @@
 import StorageKeys from 'common/constant/storage-keys';
 import queryString from 'query-string';
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { getProfile } from 'services/api/httpClient';
 import { LOAD_USER_ERROR, LOAD_USER_LOADING, LOAD_USER_SUCCESS } from './actions';
 
@@ -22,8 +22,5 @@ function* fetchUser() {
 }
 
 export function* userSaga() {
-  // Allows concurrent fetches of users
-  yield takeEvery(LOAD_USER_LOADING, fetchUser);
-  // Does not allow concurrent fetches of users
-  // yield takeLatest(LOAD_USER_LOADING, fetchUser);
+  yield takeLatest(LOAD_USER_LOADING, fetchUser);
 }
