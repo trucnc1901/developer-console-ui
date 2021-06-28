@@ -21,24 +21,21 @@ const Login = (props) => {
   // const { data, error, fetchUser } = { ...props };
   const [error, setError] = useState(null);
   const [data, setData] = useState(initialState);
-  const token = getCookie(StorageKeys.TOKEN);
   const auth = queryString.parse(location.search).code;
   useEffect(() => {
     const SignIn = async () => {
       login(auth, function () {
-        if (token) {
-          getProfile
-            .requestApi()
-            .then((response) => {
-              const data = response.data;
-              localStorage.setItem(StorageKeys.PROFILE, queryString.stringify(data));
-              setData(data);
-            })
-            .catch((err) => {
-              console.log(err.message);
-              setError(err.message);
-            });
-        }
+        getProfile
+          .requestApi()
+          .then((response) => {
+            const data = response.data;
+            localStorage.setItem(StorageKeys.PROFILE, queryString.stringify(data));
+            setData(data);
+          })
+          .catch((err) => {
+            console.log(err.message);
+            setError(err.message);
+          });
       });
     };
     SignIn();
