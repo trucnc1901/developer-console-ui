@@ -17,12 +17,14 @@ const MyLogoutButton = forwardRef((props, ref) => {
       };
       axios
         .get(REACT_APP_MINIAP_API_LOGOUT, requestOptions)
-        .then(function (response) {})
+        .then(function (response) {
+          logoutAdmin();
+        })
         .catch(function (err) {
           console.log(err.message);
         });
     };
-    logout(logoutAdmin());
+    logout();
   };
 
   return <LogoutView handleLogout={handleLogout} />;
