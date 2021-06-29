@@ -1,4 +1,3 @@
-import InternalServer from 'components/common/errors/InternalServer';
 import NotFound from 'pages/NotFound';
 import React from 'react';
 import { Authenticated, RouteWithoutLayout } from 'react-admin';
@@ -56,7 +55,6 @@ const customRoutes = [
       </Authenticated>
     )}
   />,
-  <RouteWithoutLayout exact path="/500" component={InternalServer} />,
 ];
 
 export default customRoutes;

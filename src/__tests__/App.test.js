@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import App from 'App';
 import { createMemoryHistory } from 'history';
 import authProvider from 'providers/authProvider';
@@ -28,4 +28,5 @@ test('render component', () => {
       </Provider>
     </Router>
   );
+  act(() => {});
 });

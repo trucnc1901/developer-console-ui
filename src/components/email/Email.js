@@ -19,7 +19,7 @@ const Email = () => {
           }, 1000);
         })
         .catch((err) => {
-          setError(err);
+          setError(err.message);
           setLoading(false);
         });
     };

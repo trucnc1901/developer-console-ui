@@ -38,7 +38,6 @@ const useStyles = makeStyles({
 const MyMenu = ({ onMenuClick, logout }) => {
   const classes = useStyles();
   const open = useSelector((state) => state.admin.ui.sidebarOpen);
-  // const user = useSelector((state) => state.user.data);
   const resources = useSelector(getResources);
   const { identity } = useGetIdentity();
   const { avatar, email, name } = { ...identity };

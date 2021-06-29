@@ -1,14 +1,4 @@
 const Status = {
-  ERROR_400: {
-    image: '/static/images/status/coming_soon.svg',
-    title: '400: That is an error',
-    text: '',
-  },
-  ERROR_401: {
-    image: '/static/images/status/error401.svg',
-    title: '401: Authorization required',
-    text: '',
-  },
   ERROR_404: {
     image: '/static/images/status/ERROR_404.svg',
     title: '404: The page you are looking for isn’t here',

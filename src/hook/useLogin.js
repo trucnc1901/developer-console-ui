@@ -6,9 +6,11 @@ import { getToken } from 'services/api/httpClient';
 export function useLogin() {
   const [loading, setLoading] = useState(false);
   const [errorAuth, setErrorAuth] = useState(null);
+  const [token, setToken] = useState(null);
 
   let login = (auth, callback) => {
     setLoading(true);
+    setToken(null);
     setErrorAuth(null);
     getToken
       .requestApi(auth)
@@ -18,6 +20,7 @@ export function useLogin() {
         setCookie(StorageKeys.TOKEN, access_token, 3);
         localStorage.setItem(StorageKeys.SESSEION_ID, session_id);
         setLoading(false);
+        setToken(access_token);
         callback();
       })
       .catch((err) => {
@@ -27,5 +30,5 @@ export function useLogin() {
       });
   };
 
-  return { loading, errorAuth, login };
+  return { token, loading, errorAuth, login };
 }

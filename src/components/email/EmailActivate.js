@@ -5,7 +5,7 @@ import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import StorageKeys from 'common/constant/storage-keys';
 import theme from 'common/theme';
 import queryString from 'query-string';
-import { Link, Loading } from 'ra-ui-materialui';
+import { Loading } from 'ra-ui-materialui';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getProfile, userConfirm } from 'services/api/httpClient';
@@ -51,7 +51,7 @@ const EmailActive = () => {
           });
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.message);
           setSuccess(false);
           setLoading(false);
         });
@@ -69,11 +69,9 @@ const EmailActive = () => {
             <Typography align="center" color="textPrimary" gutterBottom variant="h4">
               {status.success.message}
             </Typography>
-            <Link to="/">
-              <Button color="primary" variant="text">
-                Go to dashboard
-              </Button>
-            </Link>
+            <Button href="/" color="primary" variant="text">
+              Go to dashboard
+            </Button>
           </Box>
         ) : (
           <Box>
