@@ -8,6 +8,8 @@ import React, { useEffect, useState } from 'react';
 import { Loading } from 'react-admin';
 import { useHistory, useLocation } from 'react-router-dom';
 
+const { REACT_APP_MINIAP_API_PROFILE } = process.env;
+
 const Login = (props) => {
   const history = useHistory();
   const location = useLocation();
@@ -26,7 +28,7 @@ const Login = (props) => {
         },
       };
       axios
-        .get('/api/v1/miniapps-console/users/me', requestOptions)
+        .get(REACT_APP_MINIAP_API_PROFILE, requestOptions)
         .then(function (response) {
           const data = response.data.data;
           setData(data);

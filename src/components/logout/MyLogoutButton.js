@@ -5,6 +5,7 @@ import React, { forwardRef } from 'react';
 import { useLogout } from 'react-admin';
 import LogoutView from './LogoutView';
 
+const { REACT_APP_MINIAP_API_LOGOUT } = process.env;
 const MyLogoutButton = forwardRef((props, ref) => {
   const logoutAdmin = useLogout();
   const handleLogout = async () => {
@@ -15,7 +16,7 @@ const MyLogoutButton = forwardRef((props, ref) => {
         },
       };
       axios
-        .get('/api/v1/miniapps-console/users/me', requestOptions)
+        .get(REACT_APP_MINIAP_API_LOGOUT, requestOptions)
         .then(function (response) {})
         .catch(function (err) {
           console.log(err.message);
