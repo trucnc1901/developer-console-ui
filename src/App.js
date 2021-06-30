@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@material-ui/core';
 import AccountCircleRounded from '@material-ui/icons/AccountCircleRounded';
-import Auth from 'components/auth/Auth';
+import Auth from 'components/auth';
 import MyLogoutButton from 'components/logout/MyLogoutButton';
 import { createBrowserHistory as createHistory } from 'history';
 import React from 'react';

@@ -1,5 +1,5 @@
 import StorageKeys from 'common/constant/storage-keys';
-import { deleteCookie, getCookie } from 'components/common/Cookies';
+import { deleteCookie, getCookie } from 'common/utils/Cookies';
 import decodeJwt from 'jwt-decode';
 import queryString from 'query-string';
 

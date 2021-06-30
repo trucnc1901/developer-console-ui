@@ -1,15 +1,8 @@
 import { Box, Container } from '@material-ui/core';
-import { useCheckAuth } from 'react-admin';
-import { useEffect } from 'react';
 import SettingsNotifications from 'components/settings/SettingsNotifications';
 import SettingsPassword from 'components/settings/SettingsPassword';
 
 const Setting = () => {
-  const checkAuth = useCheckAuth();
-  useEffect(() => {
-    checkAuth().catch(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <Box
       css={{

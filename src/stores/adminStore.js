@@ -1,5 +1,5 @@
-import userReducer from 'components/login/userReducer';
-import { userSaga } from 'components/login/userSaga';
+import userReducer from 'saga/user/userReducer';
+import { userSaga } from 'saga/user/userSaga';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { adminReducer, adminSaga, USER_LOGOUT } from 'react-admin';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';

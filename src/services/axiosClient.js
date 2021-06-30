@@ -1,20 +1,20 @@
 import axios from 'axios';
-import { getCookie } from 'components/common/Cookies';
+import { getCookie } from 'common/utils/Cookies';
 import StorageKeys from 'common/constant/storage-keys';
 
 const axiosClient = axios.create({
-  baseURL: '/',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${getCookie(StorageKeys.TOKEN)}`,
-  },
+  baseURL: process.env.REACT_APP_MINIAP_BASE_API,
 });
 
 // Add a request interceptor
 axiosClient.interceptors.request.use(
   function (config) {
-    // Do something before request is sent
+    const token = getCookie(StorageKeys.TOKEN);
+    config.headers = {
+      Authorization: token ? `Bearer ${token}` : '',
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
     return config;
   },
   function (error) {

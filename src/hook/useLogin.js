@@ -1,5 +1,5 @@
 import StorageKeys from 'common/constant/storage-keys';
-import { setCookie } from 'components/common/Cookies';
+import { setCookie } from 'common/utils/Cookies';
 import { useState } from 'react';
 import { getToken } from 'services/api/httpClient';
 
@@ -7,13 +7,12 @@ export function useLogin() {
   const [loading, setLoading] = useState(false);
   const [errorAuth, setErrorAuth] = useState(null);
   const [token, setToken] = useState(null);
-
-  let login = (auth, callback) => {
+  let login = ({ auth_code }, callback) => {
     setLoading(true);
     setToken(null);
     setErrorAuth(null);
     getToken
-      .requestApi(auth)
+      .requestApi({ auth_code })
       .then((result) => {
         const access_token = result.data.access_token;
         const session_id = result.data.session_id;

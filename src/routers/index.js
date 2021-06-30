@@ -4,9 +4,9 @@ import { Authenticated, RouteWithoutLayout } from 'react-admin';
 import { Route } from 'react-router-dom';
 import Email from '../components/email/Email';
 import EmailActivate from '../components/email/EmailActivate';
-import Login from '../components/login/Login';
 import Dashboard from '../pages/Dashboard';
 import Setting from '../pages/Setting';
+import Login from 'components/login';
 
 const customRoutes = [
   <Route

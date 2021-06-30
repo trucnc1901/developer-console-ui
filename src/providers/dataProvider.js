@@ -1,4 +1,4 @@
-import { getCookie } from 'components/common/Cookies';
+import { getCookie } from 'common/utils/Cookies';
 import { stringify } from 'query-string';
 import { fetchUtils } from 'react-admin';
 import StorageKeys from '../common/constant/storage-keys';

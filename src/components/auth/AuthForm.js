@@ -41,16 +41,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AuthForm = (props) => {
-  const { REACT_APP_MINIAP_API_BASE_URL } = process.env;
   const classes = useStyles();
-
   const redirectLogin = (e) => {
     e.preventDefault();
     const oauth2Endpoint = 'https://oauth.zaloapp.com/v3/permission';
     const cbURL = window.location.href;
     const params = {
       app_id: '499973553904625500',
-      redirect_uri: `${REACT_APP_MINIAP_API_BASE_URL}/login/callback`,
+      redirect_uri: `${process.env.REACT_APP_MINIAP_API_BASE_URL}/login/callback`,
       state: encodeURIComponent(cbURL),
     };
     const url = `${oauth2Endpoint}?app_id=${params.app_id}&redirect_uri=${params.redirect_uri}&state=${params.state}f=1`;
