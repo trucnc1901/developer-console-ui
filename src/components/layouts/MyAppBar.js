@@ -1,23 +1,8 @@
-import SettingsIcon from '@material-ui/icons/Settings';
-import React, { forwardRef } from 'react';
-import { AppBar, MenuItemLink, UserMenu } from 'react-admin';
-
-const ConfigurationMenu = forwardRef(({ onClick }, ref) => (
-  <MenuItemLink
-    ref={ref}
-    to="/setting"
-    primaryText="Setting"
-    leftIcon={<SettingsIcon />}
-    onClick={onClick} // close the menu on click
-  />
-));
+import React from 'react';
+import { AppBar, UserMenu } from 'react-admin';
 
 const MyUserMenu = (props) => {
-  return (
-    <UserMenu {...props}>
-      <ConfigurationMenu />
-    </UserMenu>
-  );
+  return <UserMenu {...props}></UserMenu>;
 };
 
 const MyAppBar = (props) => {

@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@material-ui/core';
 import AccountCircleRounded from '@material-ui/icons/AccountCircleRounded';
-import Auth from 'components/auth';
+import Login from 'components/login';
 import MyLogoutButton from 'components/logout/MyLogoutButton';
 import { createBrowserHistory as createHistory } from 'history';
 import React from 'react';
@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import authProvider from './providers/authProvider';
 import dataProvider from './providers/dataProvider';
 import customRoutes from './routers';
+
 const App = () => {
   const history = createHistory();
   const { loading, authenticated } = useAuthState();
@@ -29,7 +30,7 @@ const App = () => {
           authProvider={authProvider}
           history={history}
           layout={MyLayout}
-          loginPage={Auth}
+          loginPage={Login}
           dashboard={Dashboard}
           customRoutes={customRoutes}
           logoutButton={MyLogoutButton}

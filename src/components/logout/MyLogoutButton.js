@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { useLogout } from 'react-admin';
 import { logout } from 'services/api/httpClient';
-import LogoutView from './LogoutView';
+import LogoutView from './LogoutDialog';
 
 const MyLogoutButton = forwardRef((props, ref) => {
   const clearSession = useLogout();

@@ -2,7 +2,7 @@ import { createBrowserHistory as createHistory } from 'history';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import adminStore from 'stores/adminStore';
 import App from './App';
 import authProvider from './providers/authProvider';
@@ -18,9 +18,9 @@ ReactDOM.render(
       history,
     })}
   >
-    <BrowserRouter>
+    <Router>
       <App />
-    </BrowserRouter>
+    </Router>
   </Provider>,
   document.getElementById('root')
 );

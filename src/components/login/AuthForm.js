@@ -40,26 +40,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AuthForm = (props) => {
+const AuthForm = ({ handleClick }) => {
   const classes = useStyles();
-  const redirectLogin = (e) => {
-    e.preventDefault();
-    const oauth2Endpoint = 'https://oauth.zaloapp.com/v3/permission';
-    const cbURL = window.location.href;
-    const params = {
-      app_id: '499973553904625500',
-      redirect_uri: `${process.env.REACT_APP_MINIAP_API_BASE_URL}/login/callback`,
-      state: encodeURIComponent(cbURL),
-    };
-    const url = `${oauth2Endpoint}?app_id=${params.app_id}&redirect_uri=${params.redirect_uri}&state=${params.state}f=1`;
-    setTimeout(() => {
-      window.location = url;
-    }, 600);
-  };
-
-  // useEffect(() => {
-  //   setCookie('_stt', params.state, 2);
-  // }, []);
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="sm" className={classes.root}>
@@ -74,7 +56,7 @@ const AuthForm = (props) => {
             Log in on the internal platform
           </Typography>
           <Button
-            onClick={redirectLogin}
+            onClick={handleClick}
             type="submit"
             size="large"
             fullWidth
@@ -94,8 +76,7 @@ const AuthForm = (props) => {
 };
 
 AuthForm.propTypes = {
-  loading: PropTypes.bool,
-  handleAuth: PropTypes.func,
+  handleClick: PropTypes.func,
 };
 
 export default AuthForm;

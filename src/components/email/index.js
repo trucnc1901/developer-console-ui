@@ -8,11 +8,12 @@ const Email = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState();
-  const handleEmail = (email) => {
+
+  const handleSubmit = (data) => {
     setLoading(true);
     const fetchEmail = async () => {
       await userActivate
-        .requestApi(email)
+        .requestApi(data.email)
         .then(() => {
           setTimeout(() => {
             setSuccess(true);
@@ -34,7 +35,7 @@ const Email = () => {
     );
   if (success) return <Notify />;
 
-  return <EmailForm handleEmail={handleEmail} loading={loading} />;
+  return <EmailForm onSubmit={handleSubmit} loading={loading} />;
 };
 
 export default Email;

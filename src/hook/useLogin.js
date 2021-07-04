@@ -1,5 +1,5 @@
 import StorageKeys from 'common/constant/storage-keys';
-import { setCookie } from 'common/utils/Cookies';
+import { setCookie } from 'utils/Cookies';
 import { useState } from 'react';
 import { getToken } from 'services/api/httpClient';
 

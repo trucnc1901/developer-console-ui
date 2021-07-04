@@ -2,10 +2,9 @@ import NotFound from 'pages/NotFound';
 import React from 'react';
 import { Authenticated, RouteWithoutLayout } from 'react-admin';
 import { Route } from 'react-router-dom';
-import Email from '../components/email/Email';
-import EmailActivate from '../components/email/EmailActivate';
-import Dashboard from '../pages/Dashboard';
-import Setting from '../pages/Setting';
+import Email from 'components/email';
+import EmailActivate from 'components/email/EmailActivate';
+import Dashboard from 'pages/Dashboard';
 import Login from 'components/login';
 
 const customRoutes = [
@@ -15,15 +14,6 @@ const customRoutes = [
     render={() => (
       <Authenticated>
         <Dashboard />
-      </Authenticated>
-    )}
-  />,
-  <Route
-    exact
-    path="/setting"
-    render={() => (
-      <Authenticated>
-        <Setting />
       </Authenticated>
     )}
   />,

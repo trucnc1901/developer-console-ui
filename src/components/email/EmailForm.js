@@ -1,14 +1,14 @@
-import { Avatar, Box, Button, Container, TextField, Typography, CircularProgress } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Avatar, Box, Button, CircularProgress, Container, TextField, Typography } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import EmailRounded from '@material-ui/icons/EmailRounded';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { Notification } from 'react-admin';
 import theme from 'common/theme';
-import validator from 'validator';
-import Snackbar from '@material-ui/core/Snackbar';
 import Copyright from 'components/common/CopyRight';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Notification } from 'react-admin';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,55 +48,31 @@ const useStyles = makeStyles((theme) => ({
   disable: {
     pointerEvents: 'none',
   },
+  error: {
+    textAlign: 'left',
+    width: '100%',
+  },
 }));
 
-const EmailForm = ({ loading, handleEmail }) => {
+const schema = yup.object().shape({
+  email: yup.string().email('Enter a valid email').required('Please enter your email'),
+});
+
+const EmailForm = ({ onSubmit, loading, success }) => {
   const classes = useStyles();
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState(false);
-  const [success, setSuccess] = useState(false);
-
-  const handleChange = (e) => {
-    var email = e.target.value;
-    setEmail(email);
-  };
-
-  const handleCloseToast = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSuccess(false);
-    setEmailError(false);
-  };
-
-  const getEmail = (e) => {
-    e.preventDefault();
-    if (validator.isEmail(email)) {
-      setEmailError(false);
-      setSuccess(true);
-      handleEmail(email);
-      return;
-    } else {
-      setEmailError(true);
-      return false;
-    }
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: 'onBlur',
+    resolver: yupResolver(schema),
+  });
 
   return (
     <ThemeProvider theme={theme}>
-      <Snackbar open={emailError} autoHideDuration={4000} onClose={handleCloseToast}>
-        <Alert variant="filled" onClose={handleCloseToast} severity="error">
-          Please re-enter your email!
-        </Alert>
-      </Snackbar>
-
-      <Snackbar open={success} onClose={handleCloseToast}>
-        <Alert variant="filled" onClose={handleCloseToast} severity="success">
-          You have sent email successfully
-        </Alert>
-      </Snackbar>
       <Container component="main" maxWidth="sm" className={classes.root}>
-        <form className={classes.paper} onSubmit={getEmail}>
+        <form className={classes.paper} onSubmit={handleSubmit(onSubmit)}>
           <Avatar className={classes.avatar}>
             <EmailRounded />
           </Avatar>
@@ -107,21 +83,27 @@ const EmailForm = ({ loading, handleEmail }) => {
             Please enter your email to continue
           </Typography>
           <TextField
-            value={email}
-            onChange={handleChange}
-            className={classes.textfiled}
-            id="outlined-basic"
-            label="Email"
+            {...register('email')}
+            // helperText={errors.email && errors.email.message}
             variant="outlined"
+            margin="normal"
             fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
           />
+          <Typography className={classes.error} color="error" variant="body2">
+            {errors.email?.message}
+          </Typography>
           <Button
             type="submit"
             size="large"
             fullWidth
             variant="contained"
             color="primary"
-            className={`${classes.submit} ${success && classes.disable}`}
+            className={`${classes.submit}`}
             startIcon={loading && <CircularProgress color="inherit" size="20px" />}
           >
             Continue
@@ -138,11 +120,7 @@ const EmailForm = ({ loading, handleEmail }) => {
 
 EmailForm.propTypes = {
   loading: PropTypes.bool,
-  handleEmail: PropTypes.func,
-};
-
-EmailForm.defaultProps = {
-  handleEmail: null,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default EmailForm;

@@ -1,15 +1,15 @@
-import { render, screen } from '@testing-library/react';
-import Email from 'components/email';
-import EmailForm from 'components/email/EmailForm';
-import { createMemoryHistory } from 'history';
 import authProvider from 'providers/authProvider';
 import dataProvider from 'providers/dataProvider';
+import React from 'react';
+import { render, screen, act } from '@testing-library/react';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import adminStore from 'stores/adminStore';
+import App from './App';
+import { createMemoryHistory } from 'history';
 
-test('Email', async () => {
-  const mockSubmit = jest.fn();
+it('renders App', async () => {
   const history = createMemoryHistory();
   render(
     <Provider
@@ -20,11 +20,10 @@ test('Email', async () => {
       })}
     >
       <Router history={history}>
-        <Email>
-          <EmailForm onSubmit={mockSubmit} />
-        </Email>
+        <App />
       </Router>
     </Provider>
   );
-  expect(await screen.findByText('Activate email')).toBeInTheDocument();
+  act(() => {});
+  expect(await screen.findByText('Authorization')).toBeInTheDocument();
 });

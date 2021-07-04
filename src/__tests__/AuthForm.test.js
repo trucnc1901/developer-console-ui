@@ -1,21 +1,13 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import AuthForm from 'components/auth/AuthForm';
+import { render, screen, fireEvent, act } from '@testing-library/react';
+import AuthForm from 'components/login/AuthForm';
 
 describe('block test AuthForm component', () => {
-  test('should render component AuthForm', () => {
-    render(<AuthForm />);
-    expect(screen.getByText(/Authorization/i)).toBeInTheDocument();
-  });
-
-  test('should action redirect login callback', () => {
-    render(<AuthForm />);
-    const handleClick = jest.fn(() => {
-      setTimeout(() => {
-        window.location = 'https://dev-console.zalopay.vn/';
-      }, 600);
+  it('should action redirect login callback', async () => {
+    const mockClick = jest.fn();
+    render(<AuthForm handleClick={mockClick} />);
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button'));
     });
-    fireEvent.click(screen.getByText(/Login by Zalo/i));
-    expect(handleClick).toBeCalledTimes(0);
-    // expect(handleClick).toHaveBeenCalledWith('https://dev-console.zalopay.vn/');
+    expect(mockClick).toHaveBeenCalled();
   });
 });
